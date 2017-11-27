@@ -1,0 +1,25 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='Server-side authorization for Dropbox example')
+    meta(name='author', content='Benjamin Cheah')
+    link(rel='stylesheet', type='text/css', href='/style.css')
+    title dropbox-auth
+  body
+    header
+      h1 dropbox-webhook
+      p Responds to webhook notifications from Dropbox to synchronize local notes to Airtable
+      p This project is looking for notes in `.cson` (CoffeeScript Object Notation) format in a folder named `/Boostnote/notes`
+      
+    main
+      block main
+
+    footer
+      p
+        a(href='https://gomix.com/#!/remix/dropbox-auth/d64593e9-4e16-4ee5-a47b-362b5bccf26a')
+          img(src="https://gomix.com/images/background-light/remix-on-gomix.svg")
+      p
+        a(href='https://gomix.com/#!/project/dropbox-auth')
+          View View Code

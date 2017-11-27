@@ -1,0 +1,11 @@
+extends ../layouts/default.pug
+
+block main
+  p 1. Sign in with your Dropbox account.
+  p
+    a(href='/auth/code', target='dropboxWindow')
+      button Sign in with Dropbox
+  p 2. Enter the authorization code here.
+  form(action='/auth', method='post')
+    input(name='code', type='text', placeholder='Code')
+    input(type='submit')

@@ -1,0 +1,31 @@
+{
+  "name": "dropbox-auth",
+  "version": "0.0.1",
+  "description": "Server-side authorization for Dropbox example",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.14.1",
+    "pug": "^0.1.0",
+    "request": "^2.79.0",
+    "body-parser": "^1.16.0",
+    "cookie-session": "^1.2.0",
+    "dropbox": "^2.5.0",
+    "airtable": "^0.5.0"
+  },
+  "engines": {
+    "node": "6.9.1"
+  },
+  "repository": {
+    "url": "https://gomix.com/#!/project/dropbox-auth"
+  },
+  "keywords": [
+    "node",
+    "gomix",
+    "express",
+    "dropbox",
+    "oauth2"
+  ]
+}
