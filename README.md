@@ -17,7 +17,7 @@ View the live app on [https://dropbox-webhook.gomix.me](https://dropbox-webhook.
 Setting Up
 ----------
 
-1. Remix this project.
+1. [Remix this project](https://glitch.com/edit/#!/remix/dropbox-webhook).
 
 2. Create an app on your [Dropbox developer account](https://www.dropbox.com/developers/apps).
 
