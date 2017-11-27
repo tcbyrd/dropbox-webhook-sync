@@ -24,53 +24,57 @@ exports.index = (req, res) => {
     });
 };
 
-exports.process = () => {
+exports.process = async () => {
   let dbx = new Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN })
   
   // TODO: Implement file deletion logic when removing a file from dropbox
   
-  dbx.filesListFolder({ path: '/Boostnote/notes' })
-   .then((response) => {
-      let markdownFiles = response.entries.filter(entry => {
-        if (entry.path_lower.endsWith('.cson')) { return true }
-      })
-      markdownFiles.forEach(file => {
-       dbx.filesDownload({ path: file.path_lower})
-       .then(blob => {
-          base('Raw Notes').select({
-            maxRecords: 1,
-            view: 'Raw Data',
-            filterByFormula: `({id}='${blob.id}')`
-          }).firstPage((err, records) => {
-            if(err) { console.error(err); return; }
-            if(records.length === 0) {
-              console.info('Record does not exist yet, creating...')
-              base('Raw Notes').create(blob, (err, record) => {
-                if(err) { console.error(err); return; }
-                console.info('Record created:', record.getId())
-              })
-            } else {
-              records.forEach(record => {
-                let id = record.getId()
-                let rev = record.fields['rev']
-                
-                console.info(`${record.getId()} rev is ${rev}. ${file.path_lower} rev is ${blob.rev}`)
-                
-                if (rev !== blob.rev) {
-                  console.info('Existing record ID:', id)
-                  base('Raw Notes').replace(id, blob, (err, record) => {
-                    if(err) { console.error(err); return; }
-                    console.info('Record updated:', id)
-                  })  
-                }
-                
-              })
-            }
-            
+  let files = await dbx.filesListFolder({ path: '/Boostnote/notes' })
+  let csonFiles = await files.entries.filter(entry => {
+    if (entry.path_lower.endsWith('.cson')) { return true }
+  })
+  csonFiles.forEach(async file => {
+    
+    let data = await dbx.filesDownload({ path: file.path_lower })
+    
+    base('Raw Notes').select({
+    
+      maxRecords: 1,
+      view: 'Raw Data',
+      filterByFormula: `({id}='${data.id}')`
+    
+    }).firstPage((err, records) => {
+      
+      if (err) { console.error(err); return; }
+      
+       if (records.length === 0) {
+         base('Raw Notes').create(data, (err, record) => {
+      
+           if (err) { console.error(err); return; }
+             console.info('Record created:', record.getid())
+           })
+         
+       } else {
+           
+         records.forEach(record => {
+           let id = record.getId()
+           let rev = record.fields['rev']
+
+           console.info(`${id} rev is ${rev}. ${file.path_lower} rev is ${data.rev}`)
+
+           if (rev !== data.rev) {
+             console.info('Existing record ID:', id)
+
+             base('Raw Notes').replace(id, data, (err, record) => {
+               if(err) { console.error(err); return; }
+                 console.info('Record updated:', id)
+               })  
+           }
+             
           })
-        })
-        
-      })   
-   })  
-   
+           
+         }
+    })
+    
+  })
 }
