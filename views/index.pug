@@ -1,0 +1,11 @@
+extends ./layouts/default.pug
+
+block main
+  div
+    a(href='/logout') #[span(class='icon') 🚪] Log Out
+  div
+    ul(class='file-list') #[span(class='icon') 🗃]
+      each entry in entries
+        - var icon = (entry['.tag'] == 'folder') ? '📂' : '📄';
+        li <a href='https://www.dropbox.com/home/Boostnote/notes?preview=#{entry.name}'> #[span(class='icon')= icon] #{entry.path_display}</a>
+  
